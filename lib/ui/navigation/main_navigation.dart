@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_project/entity/factories/screen_factory.dart';
+import 'package:test_project/domain/factories/screen_factory.dart';
 
 abstract class MainNavigationRoutesNames {
   static const mainScreen = '/';
