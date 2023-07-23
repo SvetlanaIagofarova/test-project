@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/ui/views/main_view/main_view_view_model.dart';
+import 'package:sizer/sizer.dart';
 
 class MainViewWidget extends StatefulWidget {
   const MainViewWidget({super.key});
@@ -30,17 +31,17 @@ class _BodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 10.0,
-        horizontal: 20.0,
+      padding:  EdgeInsets.symmetric(
+        vertical: 2.0.h,
+        horizontal: 2.5.h,
       ),
       child: ListView(
-        children: const [
-          _FirstExpansionTileButton(),
-          SizedBox(height: 10.0),
-          _SecondExpansionTileButton(),
-          SizedBox(height: 10.0),
-          _ThirdExpansionTileButton()
+        children:  [
+          const _FirstExpansionTileButton(),
+          SizedBox(height: 3.h),
+          const _SecondExpansionTileButton(),
+          SizedBox(height: 3.h),
+          const _ThirdExpansionTileButton()
         ],
       ),
     );
@@ -57,12 +58,7 @@ class _FirstExpansionTileButton extends StatelessWidget {
       title: const Text('Button 1'),
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(
-            8.0,
-            5.0,
-            8.0,
-            17.0,
-          ),
+          padding:  EdgeInsets.all(2.0.h),
           child: AspectRatio(
             aspectRatio: 0.96,
             child: Image.asset(model.insideImage),
@@ -124,13 +120,16 @@ class _ThirdExpansionTileButton extends StatelessWidget {
     return ExpansionTile(
       title: const Text('Button 3'),
       children: [
-        ListView.builder(
-          controller: scrollController,
-          shrinkWrap: true,
-          itemCount: model.photos.length,
-          itemBuilder: (context, index) {
-            return _PhotosListDisplay(index: index);
-          },
+        Padding(
+          padding:  EdgeInsets.all(2.0.h),
+          child: ListView.builder(
+            controller: scrollController,
+            shrinkWrap: true,
+            itemCount: model.photos.length,
+            itemBuilder: (context, index) {
+              return _PhotosListDisplay(index: index);
+            },
+          ),
         ),
       ],
     );
@@ -148,7 +147,7 @@ class _PhotosListDisplay extends StatelessWidget {
     return Column(
       children: [
         Text(photo.title),
-        SizedBox(height: 10.0),
+        SizedBox(height: 2.0.h),
         AspectRatio(
           aspectRatio: 1,
           child: ClipRRect(
@@ -156,7 +155,7 @@ class _PhotosListDisplay extends StatelessWidget {
             child: Image.network(photo.url),
           ),
         ),
-        SizedBox(height: 25.0),
+        SizedBox(height: 4.0.h),
       ],
     );
   }
