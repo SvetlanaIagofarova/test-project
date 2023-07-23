@@ -9,6 +9,7 @@ class MainTheme {
     textTheme: const TextTheme(
       titleMedium: TextStyle(color: Colors.white),
       bodyMedium: TextStyle(color: Colors.white),
+      bodySmall: TextStyle(color: Colors.blueGrey),
     ),
     unselectedWidgetColor: Colors.white,
     colorScheme: ColorScheme.fromSwatch().copyWith(

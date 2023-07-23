@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test_project/ui/views/main_view/main_view_view_model.dart';
 
-class MainViewWidget extends StatelessWidget {
+class MainViewWidget extends StatefulWidget {
   const MainViewWidget({super.key});
+
+  @override
+  State<MainViewWidget> createState() => _MainViewWidgetState();
+}
+
+class _MainViewWidgetState extends State<MainViewWidget> {
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   context.read<MainScreenViewModel>().loadData();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +52,7 @@ class _FirstExpansionTileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.read<MainScreenViewModel>();
     return ExpansionTile(
       title: const Text('Button 1'),
       children: [
@@ -49,7 +63,10 @@ class _FirstExpansionTileButton extends StatelessWidget {
             8.0,
             17.0,
           ),
-          child: text1(),
+          child: AspectRatio(
+            aspectRatio: 0.96,
+            child: Image.asset(model.insideImage),
+          ),
         ),
       ],
     );
@@ -61,22 +78,23 @@ class _SecondExpansionTileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController = ScrollController();
+    final model = context.watch<MainScreenViewModel>();
     return ExpansionTile(
       title: const Text('Button 2'),
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-            8.0,
-            5.0,
-            8.0,
-            17.0,
-          ),
-          child: AspectRatio(
-            aspectRatio: 0.96,
-            child: Image.asset('assets/images/pngwing.com.png'),
-          ),
+        ListView.builder(
+          controller: scrollController,
+          shrinkWrap: true,
+          itemCount: model.comments.length,
+          itemBuilder: (context, index) {
+            return _CommentsListDisplay(index: index);
+          },
         ),
       ],
+      onExpansionChanged: (isExpanded) => {
+        if (isExpanded) model.loadComments(),
+      },
     );
   }
 }
@@ -86,7 +104,7 @@ class _ThirdExpansionTileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  ExpansionTile(
+    return ExpansionTile(
       title: const Text('Button 3'),
       children: [
         Padding(
@@ -99,6 +117,21 @@ class _ThirdExpansionTileButton extends StatelessWidget {
           child: text3(),
         ),
       ],
+    );
+  }
+}
+
+class _CommentsListDisplay extends StatelessWidget {
+  final int index;
+  const _CommentsListDisplay({required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.read<MainScreenViewModel>();
+    final comment = model.comments[index];
+    return ListTile(
+      title: Text(comment.email),
+      subtitle: Text(comment.body),
     );
   }
 }
