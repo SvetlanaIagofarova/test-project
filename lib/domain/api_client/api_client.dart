@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:test_project/domain/api_client/api_client_exception.dart';
-import 'package:test_project/domain/configurations/configurations.dart';
+import 'package:test_project/domain/const/const.dart';
+
 import 'package:test_project/domain/entity/comments.dart';
 import 'package:test_project/domain/entity/photos.dart';
 
@@ -11,7 +12,7 @@ class ApiClient {
 
   Future<List<Comments>> getComments() async {
     final url =
-        Uri.parse(Configurations.endPoint + Configurations.commentsPath);
+        Uri.parse(Const.endPoint + Const.commentsPath);
     try {
       final request = await _client.getUrl(url);
       final response = await request.close();
@@ -35,7 +36,7 @@ class ApiClient {
 
   Future<List<Photos>> getPhotos() async {
     final url =
-        Uri.parse(Configurations.endPoint + Configurations.photosPath);
+        Uri.parse(Const.endPoint + Const.photosPath);
     try {
       final request = await _client.getUrl(url);
       final response = await request.close();

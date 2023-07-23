@@ -31,12 +31,12 @@ class _BodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         vertical: 2.0.h,
         horizontal: 2.5.h,
       ),
       child: ListView(
-        children:  [
+        children: [
           const _FirstExpansionTileButton(),
           SizedBox(height: 3.h),
           const _SecondExpansionTileButton(),
@@ -55,12 +55,13 @@ class _FirstExpansionTileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.read<MainScreenViewModel>();
     return ExpansionTile(
-      title: const Text('Button 1'),
+      title: Text(model.buttonOne),
       children: [
         Padding(
-          padding:  EdgeInsets.all(2.0.h),
-          child: AspectRatio(
-            aspectRatio: 0.96,
+          padding: EdgeInsets.all(1.0.h),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.6,
+            width: MediaQuery.of(context).size.width * 0.6,
             child: Image.asset(model.insideImage),
           ),
         ),
@@ -77,7 +78,7 @@ class _SecondExpansionTileButton extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
     final model = context.watch<MainScreenViewModel>();
     return ExpansionTile(
-      title: const Text('Button 2'),
+      title: Text(model.buttonTwo),
       children: [
         ListView.builder(
           controller: scrollController,
@@ -103,9 +104,12 @@ class _CommentsListDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.read<MainScreenViewModel>();
     final comment = model.comments[index];
-    return ListTile(
-      title: Text(comment.email),
-      subtitle: Text(comment.body),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.29,
+      child: ListTile(
+        title: _title(comment.email),
+        subtitle: _subtitle(comment.body),
+      ),
     );
   }
 }
@@ -118,18 +122,16 @@ class _ThirdExpansionTileButton extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
     final model = context.watch<MainScreenViewModel>();
     return ExpansionTile(
-      title: const Text('Button 3'),
+      title: Text(model.buttonThree),
+      childrenPadding: EdgeInsets.all(2.0.h),
       children: [
-        Padding(
-          padding:  EdgeInsets.all(2.0.h),
-          child: ListView.builder(
-            controller: scrollController,
-            shrinkWrap: true,
-            itemCount: model.photos.length,
-            itemBuilder: (context, index) {
-              return _PhotosListDisplay(index: index);
-            },
-          ),
+        ListView.builder(
+          controller: scrollController,
+          shrinkWrap: true,
+          itemCount: model.photos.length,
+          itemBuilder: (context, index) {
+            return _PhotosListDisplay(index: index);
+          },
         ),
       ],
     );
@@ -144,19 +146,42 @@ class _PhotosListDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<MainScreenViewModel>();
     final photo = model.photos[index];
-    return Column(
-      children: [
-        Text(photo.title),
-        SizedBox(height: 2.0.h),
-        AspectRatio(
-          aspectRatio: 1,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.5,
+      width: MediaQuery.of(context).size.width * 0.7,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          _title(photo.title),
+          SizedBox(height: 2.0.h),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.35,
+            width: MediaQuery.of(context).size.width * 0.7,
             child: Image.network(photo.url),
           ),
-        ),
-        SizedBox(height: 4.0.h),
-      ],
+          SizedBox(height: 1.0.h),
+        ],
+      ),
     );
   }
+}
+
+Text _title(String title) {
+  return Text(
+    title,
+    style: TextStyle(
+      fontSize: 1.75.h,
+      fontWeight: FontWeight.w600,
+    ),
+  );
+}
+
+Text _subtitle(String subtitle) {
+  return Text(
+    subtitle,
+    style: TextStyle(
+      fontSize: 1.5.h,
+    ),
+  );
 }

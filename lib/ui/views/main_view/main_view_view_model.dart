@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:test_project/domain/api_client/api_client.dart';
-import 'package:test_project/domain/configurations/configurations.dart';
+import 'package:test_project/domain/const/const.dart';
 import 'package:test_project/domain/entity/comments.dart';
 import 'package:test_project/domain/entity/photos.dart';
 
 class MainScreenViewModel extends ChangeNotifier {
   final _apiClient = ApiClient();
-  final String insideImage = Configurations.insideImage;
+  final String insideImage = Const.insideImage;
+  final String buttonOne = Const.buttonOne;
+  final String buttonTwo = Const.buttonTwo;
+  final String buttonThree = Const.buttonThree;
 
   var _comments = const <Comments>[];
   List<Comments> get comments => _comments;
